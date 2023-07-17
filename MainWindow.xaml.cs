@@ -20,9 +20,6 @@ using System.Windows.Shapes;
 
 namespace DesktopDivoom
 {
-
-
-    
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -34,8 +31,12 @@ namespace DesktopDivoom
         {
             InitializeComponent();
         }
-        private async Task TestConnection()
+
+
+
+        private async void Test_Connection_Click(object sender, RoutedEventArgs e)
         {
+            Debug.WriteLine("IP Address: " + ipAddress.Text);            
             testResponse.Foreground = Brushes.Black;
             testResponse.Text = "Searching...";
             testConnectionButton.IsEnabled = false;
@@ -43,18 +44,16 @@ namespace DesktopDivoom
             testConnectionButton.IsEnabled = true;
         }
 
-        private void Test_Connection_Click(object sender, RoutedEventArgs e)
-        {
-            Debug.WriteLine("IP Address: " + ipAddress.Text);
-            _ = TestConnection();
-        }
-
-        private void sendGifButton_Click(object sender, RoutedEventArgs e)
+        private async void Send_Gif_Button_Click(object sender, RoutedEventArgs e)
         {
             if (sendGifURI.Text.Length > 0)
             {
                 Debug.WriteLine("Sending URL at: " + sendGifURI.Text);
-                Divoom.SendGif(ipAddress.Text, sendGifURI.Text, HandleGifSendResponse);
+                sendGifResponse.Foreground = Brushes.Black;
+                sendGifResponse.Text = "Sending GIF...";
+                sendGifButton.IsEnabled = false;
+                await Divoom.SendGif(ipAddress.Text, sendGifURI.Text, HandleGifSendResponse);
+                sendGifButton.IsEnabled = true;
             }
             else
             {
