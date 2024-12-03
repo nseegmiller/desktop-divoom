@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Formats.Tar;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -30,17 +31,16 @@ namespace DesktopDivoom
         public MainWindow()
         {
             InitializeComponent();
+            ipAddress.Text = "10.0.0.54";
         }
-
-
 
         private async void Test_Connection_Click(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("IP Address: " + ipAddress.Text);            
-            testResponse.Foreground = Brushes.Black;
-            testResponse.Text = "Searching...";
+            responseText.Foreground = Brushes.Black;
+            responseText.Text = "Searching...";
             testConnectionButton.IsEnabled = false;
-            await Divoom.TestConnection(ipAddress.Text, HandleTestResponse);
+            await Divoom.TestConnection(ipAddress.Text, HandleResponse);
             testConnectionButton.IsEnabled = true;
         }
 
@@ -49,59 +49,65 @@ namespace DesktopDivoom
             if (sendGifURI.Text.Length > 0)
             {
                 Debug.WriteLine("Sending URL at: " + sendGifURI.Text);
-                sendGifResponse.Foreground = Brushes.Black;
-                sendGifResponse.Text = "Sending GIF...";
+                responseText.Foreground = Brushes.Black;
+                responseText.Text = "Sending GIF...";
                 sendGifButton.IsEnabled = false;
-                await Divoom.SendGif(ipAddress.Text, sendGifURI.Text, HandleGifSendResponse);
+                await Divoom.SendGif(ipAddress.Text, sendGifURI.Text, HandleResponse);
                 sendGifButton.IsEnabled = true;
             }
             else
             {
-                sendGifResponse.Foreground = Brushes.Red;
-                sendGifResponse.Text = "Invalid URL";
+                responseText.Foreground = Brushes.Red;
+                responseText.Text = "Invalid URL";
             }
         }
 
-        private void HandleGifSendResponse(HttpResponseMessage response)
+        private void Browse_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (response.StatusCode == HttpStatusCode.OK)
+            // Configure open file dialog box
+            var dialog = new Microsoft.Win32.OpenFileDialog
             {
-                sendGifResponse.Foreground = Brushes.Green;
-                sendGifResponse.Text = "GIF sent to device.";
-            }
-            else if (response.StatusCode == HttpStatusCode.InternalServerError)
+                FileName = "file.gif", // Default file name
+                DefaultExt = ".gif", // Default file extension
+                Filter = "Gifs (.gif)|*.gif" // Filter files by extension
+            };
+
+            // Show open file dialog box
+            bool? result = dialog.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true)
             {
-                sendGifResponse.Foreground = Brushes.Red;
-                sendGifResponse.Text = "Error sending GIF.";
+                // Open document
+                sendFilePath.Text = dialog.FileName;
             }
         }
 
-        private void HandleTestResponse(HttpResponseMessage response)
+        private async void Send_File_Button_Click(object sender, RoutedEventArgs e)
+        {            
+            Debug.WriteLine("Sending Frames");
+            responseText.Foreground = Brushes.Black;
+            responseText.Text = "Sending Frames";
+            sendFileButton.IsEnabled = false;
+            await Divoom.SendFile(ipAddress.Text, sendFilePath.Text, HandleResponse);
+            sendFileButton.IsEnabled = true;
+        }
+
+        private async void HandleResponse(HttpResponseMessage response)
         {
+            string content = await response.Content.ReadAsStringAsync();
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                Debug.WriteLine("Device Found!");
-                testResponse.Foreground = Brushes.Green;
-                testResponse.Text = "Device Found!";
-            }
-            else if (response.StatusCode == HttpStatusCode.InternalServerError)
-            {
-                testResponse.Foreground = Brushes.Red;
-                testResponse.Text = "Invalid IP Address.";
+                responseText.Foreground = Brushes.Green;
+                content ??= "Operation completed successfully.";
             }
             else
             {
-                Debug.WriteLine("Device Not Found.");
-                testResponse.Foreground = Brushes.Red;
-                testResponse.Text = "Device Not Found.";                
-            }       
+                responseText.Foreground = Brushes.Red;
+                content ??= "Error completing operation.";
+            }
+            responseText.Text = content;
         }
-
-        private void IP_Address_Changed(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        
+       
     }
 }

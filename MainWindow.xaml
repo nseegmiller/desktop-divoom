@@ -7,14 +7,18 @@
         mc:Ignorable="d"
         Title="Divoom Desktop" Height="450" Width="800">
     <Grid>
-        <Button x:Name="testConnectionButton" Content="Test Connection" HorizontalAlignment="Left" Height="32" Margin="10,57,0,0" VerticalAlignment="Top" Width="104" Click="Test_Connection_Click"/>
-        <TextBox x:Name="ipAddress" HorizontalAlignment="Left" Height="20" Margin="10,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="104" TextChanged="IP_Address_Changed"/>
-        <TextBlock x:Name="ipAddressLabel" HorizontalAlignment="Left" Height="17" Margin="10,10,0,0" TextWrapping="Wrap" Text="Panel IP Address" VerticalAlignment="Top" Width="110"/>
-        <TextBlock x:Name="testResponse" HorizontalAlignment="Left" Height="19" Margin="119,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="236"/>
-        <TextBox x:Name="sendGifURI" HorizontalAlignment="Center" Height="20" Margin="0,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="780"/>
-        <Button x:Name="sendGifButton" Content="Send to Device" HorizontalAlignment="Left" Height="32" Margin="10,164,0,0" VerticalAlignment="Top" Width="100" Click="Send_Gif_Button_Click"/>
-        <TextBlock x:Name="gifUrlLabel" HorizontalAlignment="Left" Height="17" Margin="10,117,0,0" TextWrapping="Wrap" Text="GIF URL" VerticalAlignment="Top" Width="110"/>
-        <TextBlock x:Name="sendGifResponse" HorizontalAlignment="Left" Height="19" Margin="119,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="236"/>
+        <Button x:Name="testConnectionButton" Content="Test Connection" HorizontalAlignment="Left" Height="32" Margin="125,27,0,0" VerticalAlignment="Top" Width="104" Click="Test_Connection_Click"/>
+        <TextBox x:Name="ipAddress" HorizontalAlignment="Left" Height="20" Margin="10,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="104" />
+        <TextBlock x:Name="ipAddressLabel" HorizontalAlignment="Left" Height="17" Margin="10,10,0,0" TextWrapping="Wrap" Text="Panel IP Address" VerticalAlignment="Top"/>
+        <TextBox x:Name="sendGifURI" HorizontalAlignment="Left" Height="20" Margin="10,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="541"/>
+        <Button x:Name="sendGifButton" Content="Send Remote File" HorizontalAlignment="Left" Height="32" Margin="10,135,0,0" VerticalAlignment="Top" Width="100" Click="Send_Gif_Button_Click"/>
+        <TextBlock x:Name="gifUrlLabel" HorizontalAlignment="Left" Height="17" Margin="10,88,0,0" TextWrapping="Wrap" Text="GIF URL" VerticalAlignment="Top"/>
+        <TextBox x:Name="sendFilePath" HorizontalAlignment="Left" Height="20" Margin="90,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="562" IsEnabled="False"/>
+        <Button x:Name="sendFileButton" Content="Send Local File" HorizontalAlignment="Left" Height="32" Margin="10,268,0,0" VerticalAlignment="Top" Width="100" Click="Send_File_Button_Click"/>
+        <TextBlock x:Name="sendFileLabel" HorizontalAlignment="Left" Height="17" Margin="12,200,0,0" TextWrapping="Wrap" Text="File to Send" VerticalAlignment="Top"/>
+        <TextBlock x:Name="responseText" HorizontalAlignment="Left" Height="20" Margin="12,353,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="413"/>
+        <Button Content="Browse" HorizontalAlignment="Left" Margin="10,226,0,0" VerticalAlignment="Top" Height="30" Width="63" Click="Browse_Button_Click"/>
+        <TextBlock x:Name="responseLabel" HorizontalAlignment="Left" Height="17" Margin="12,331,0,0" TextWrapping="Wrap" Text="Response" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
