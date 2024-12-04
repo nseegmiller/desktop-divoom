@@ -69,7 +69,7 @@ namespace DesktopDivoom
                 BitmapData bitmapData = gif.LockBits(
                     new Rectangle(0, 0, gif.Width, gif.Height),
                     ImageLockMode.ReadOnly,
-                    gif.PixelFormat);
+                    PixelFormat.Format32bppArgb);
 
                 // Calculate the size of the RGB data
                 int stride = Math.Abs(bitmapData.Stride);
